@@ -1,17 +1,16 @@
 {
   "name": "helloreact",
   "version": "1.0.0",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "description": "",
   "author": "abhay sachan",
   "license": "ISC",
-  "description": "",
+  "scripts": {
+    "start": "parcel index.html",
+    "build": "parcel build index.html"
+  },
   "devDependencies": {
-    "@babel/cli": "^7.27.2",
     "@babel/core": "^7.27.4",
-    "@babel/preset-env": "^7.27.2",
-    "@babel/preset-react": "^7.27.1"
+    "@babel/plugin-transform-react-jsx": "^7.22.5",
+    "parcel": "^2.15.2"
   }
 }

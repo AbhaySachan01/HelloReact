@@ -1,4 +1,4 @@
-function createNewElement(type , props , ...children){
+export function createNewElement(type , props , ...children){
     return {
         type,
         props:{
@@ -21,7 +21,6 @@ function createNewTextElement(text){
     };
 }
 
-export default {createNewElement};
 
 // 🧱 createNewTextElement(text)
 // This helper function wraps raw text like "Hello" into an object structure:
