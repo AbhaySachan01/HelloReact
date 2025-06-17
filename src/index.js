@@ -1,4 +1,4 @@
-import  {createNewElement}  from "./createElement.js";
+import  {createNewElement,Fragment}  from "./createElement.js";
 import {render} from "./render.js"
 
 const element = (
@@ -6,6 +6,16 @@ const element = (
         Hello <span style="color : red">World</span>
     </div>
 )
-
+const element2 = (
+    <>
+    <div>
+        <h2>Hello World</h2>
+        <h5>Hello Guys</h5>
+        <a>hi</a>
+    </div>
+    </>
+    
+)
 const container = document.getElementById("root");
 render(element,container);
+render(element2,container);
