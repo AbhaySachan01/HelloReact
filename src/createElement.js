@@ -1,5 +1,5 @@
 export function createNewElement(type , props , ...children){
-    console.log("Create New Element for ", type);
+    // console.log("Create New Element for ", type);
     return {
         type,
         props:{
@@ -13,7 +13,7 @@ export function createNewElement(type , props , ...children){
 }
 
 function createNewTextElement(text){
-    console.log("Create New Text Element for ", text);
+    // console.log("Create New Text Element for ", text);
     return {
         type:"text",
         props:{
