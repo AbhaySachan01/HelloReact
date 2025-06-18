@@ -1,41 +1,24 @@
-import { createDom } from "./createDom.js";
+import { createDom } from "./dom.js";
+import { reconcile } from "./reconcile.js";
 
 export function performUnitOfWork(fiber) {
   if (!fiber.dom) {
     fiber.dom = createDom(fiber);
   }
 
-  if (fiber.dom) {
-    let parentFiber = fiber.parent;
-    while (parentFiber && parentFiber.dom == null) {
-      parentFiber = parentFiber.parent;
-    }
-    if (parentFiber?.dom) {
-      parentFiber.dom.appendChild(fiber.dom);
-    }
+  let parentFiber = fiber.parent;
+  while (parentFiber && !parentFiber.dom) {
+    parentFiber = parentFiber.parent;
   }
 
-  const children = fiber.props.children || [];
-  let prevSibling = null;
+  if (fiber.dom && parentFiber?.dom) {
+    parentFiber.dom.appendChild(fiber.dom);
+  }
 
-  children.forEach((child, index) => {
-    const newFiber = {
-      type: child.type,
-      props: child.props,
-      parent: fiber,
-      dom: null,
-    };
-
-    if (index === 0) {
-      fiber.child = newFiber;
-    } else {
-      prevSibling.sibling = newFiber;
-    }
-
-    prevSibling = newFiber;
-  });
+  reconcile(fiber, fiber.props.children || []);
 
   if (fiber.child) return fiber.child;
+
   let nextFiber = fiber;
   while (nextFiber) {
     if (nextFiber.sibling) return nextFiber.sibling;

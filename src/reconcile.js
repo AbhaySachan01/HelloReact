@@ -1,0 +1,54 @@
+import { PLACEMENT, UPDATE, DELETION } from "./global.js";
+import { addDeletion } from "./global.js";
+
+
+export function reconcile(wipFiber, elements) {
+  let index = 0;
+  let oldFiber = wipFiber.alternate?.child;
+  let prevSibling = null;
+
+  while (index < elements.length || oldFiber) {
+    const element = elements[index];
+    let newFiber = null;
+
+    const sameType = oldFiber && element && element.type === oldFiber.type;
+
+    if (sameType) {
+      newFiber = {
+        type: oldFiber.type,
+        props: element.props,
+        dom: oldFiber.dom,
+        parent: wipFiber,
+        alternate: oldFiber,
+        effectTag: UPDATE,
+      };
+    }
+
+    if (element && !sameType) {
+      newFiber = {
+        type: element.type,
+        props: element.props,
+        dom: null,
+        parent: wipFiber,
+        alternate: null,
+        effectTag: PLACEMENT,
+      };
+    }
+
+    if (oldFiber && !sameType) {
+      oldFiber.effectTag = DELETION;
+      addDeletion(oldFiber); 
+    }
+
+    if (oldFiber) oldFiber = oldFiber.sibling;
+
+    if (index === 0) {
+      wipFiber.child = newFiber;
+    } else if (prevSibling) {
+      prevSibling.sibling = newFiber;
+    }
+
+    prevSibling = newFiber;
+    index++;
+  }
+}
