@@ -7,7 +7,7 @@ export function createDom(fiber) {
     return document.createTextNode(fiber.props.nodeValue);
   }
 
-  if (fiber.type === Fragment) {
+  if (fiber.type === Fragment  || typeof fiber.type === "function") {
     fiber.dom=null;
     return null; 
   }

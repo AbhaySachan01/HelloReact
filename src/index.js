@@ -25,13 +25,25 @@ const element2 = (
 
 const container = document.getElementById("root");
 
+function MyComponent(props) {
+  return (
+    <h1>Hello, {props.name}!</h1>
+  );
+}
+
+const app = <MyComponent name="Abhay" />;
+
 
 const newroot = (
     <>
+    {app}
     {element}
     {element2}
+    
     </>
 )
+
+
 // render(element, container);
 // render(element2, container);
 render(newroot, container);
