@@ -1,37 +1,45 @@
-import { commitRoot } from "./commit.js";
 import { performUnitOfWork } from "./performUnitOfWork.js";
+import {commitRoot} from "./commit.js";
 import {
   getWipRoot,
   getCurrentRoot,
   setWipRoot,
   setCurrentRoot,
   setDeletions,
+  getNextUnitOfWork,
+  setNextUnitOfWork, 
 } from "./global.js";
 
-let nextUnitOfWork = null;
 let localDeletions = [];
 
 export function render(element, container) {
-  setWipRoot({
+  const prevRoot = getCurrentRoot();
+
+
+  const root = {
     dom: container,
     props: { children: [element] },
-    alternate: getCurrentRoot(),
-  });
+    alternate: prevRoot,
+  };
+
+  setWipRoot(root);
+  setCurrentRoot(root); 
+  setNextUnitOfWork(root);
   localDeletions = [];
-  nextUnitOfWork = getWipRoot();
 }
 
 function workLoop(deadline) {
   let shouldYield = false;
-  while (nextUnitOfWork && !shouldYield) {
-    nextUnitOfWork = performUnitOfWork(nextUnitOfWork);
+  let nextUnit = getNextUnitOfWork();
+
+  while (nextUnit && !shouldYield) {
+    nextUnit = performUnitOfWork(nextUnit);
+    setNextUnitOfWork(nextUnit);
     shouldYield = deadline.timeRemaining() < 1;
   }
-
-  if (!nextUnitOfWork && getWipRoot()) {
+  if (!getNextUnitOfWork() && getWipRoot()) {
     setDeletions(localDeletions);
-    commitRoot(getWipRoot());
-    setCurrentRoot(getWipRoot());
+    commitRoot(getWipRoot()); 
     setWipRoot(null);
   }
 

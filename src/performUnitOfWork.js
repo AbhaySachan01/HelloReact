@@ -9,6 +9,9 @@ export function performUnitOfWork(fiber) {
     setWipFiber(fiber);
     setHookIndex(0);
 
+    fiber.hooks = [];
+    fiber.dom = null;
+
     const children = [fiber.type(fiber.props)];
     reconcile(fiber, children);
   } 

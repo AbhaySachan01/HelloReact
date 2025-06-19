@@ -1,26 +1,14 @@
 import { Fragment } from "./createElement.js";
 
-export function createDom(fiber) {
-  // console.log("Creating DOM for:", fiber.type, fiber.props);
-
-  if (fiber.type === "text") {
-    return document.createTextNode(fiber.props.nodeValue);
-  }
-
-  if (fiber.type === Fragment  || typeof fiber.type === "function") {
-    fiber.dom=null;
-    return null; 
-  }
-
-  return document.createElement(fiber.type);
-}
-
 
 export function updateDom(dom, prevProps, nextProps) {
-  // Skip if the dom is not an Element (e.g., text node)
-  if (!(dom instanceof Element)) return;
+  if (dom.nodeType === Node.TEXT_NODE) {
+    if (prevProps.nodeValue !== nextProps.nodeValue) {
+      dom.nodeValue = nextProps.nodeValue;
+    }
+    return;
+  }
 
-  // 1. Remove old or changed event listeners
   Object.keys(prevProps)
     .filter(name => name.startsWith("on"))
     .forEach(name => {
@@ -30,7 +18,6 @@ export function updateDom(dom, prevProps, nextProps) {
       }
     });
 
-  // 2. Remove old properties
   Object.keys(prevProps)
     .filter(name => name !== "children" && !name.startsWith("on"))
     .forEach(name => {
@@ -43,7 +30,6 @@ export function updateDom(dom, prevProps, nextProps) {
       }
     });
 
-  // 3. Add or update new properties
   Object.keys(nextProps)
     .filter(name => name !== "children" && !name.startsWith("on"))
     .forEach(name => {
@@ -54,7 +40,6 @@ export function updateDom(dom, prevProps, nextProps) {
       }
     });
 
-  // 4. Add new event listeners
   Object.keys(nextProps)
     .filter(name => name.startsWith("on"))
     .forEach(name => {
@@ -63,4 +48,20 @@ export function updateDom(dom, prevProps, nextProps) {
         dom.addEventListener(eventType, nextProps[name]);
       }
     });
+}
+
+
+export function createDom(fiber) {
+  if (fiber.type === "text") {
+    return document.createTextNode(fiber.props.nodeValue);
+  }
+
+  if (fiber.type === Fragment || typeof fiber.type === "function") {
+    fiber.dom = null;
+    return null;
+  }
+
+  const dom = document.createElement(fiber.type);
+  updateDom(dom, {}, fiber.props);
+  return dom;
 }

@@ -21,6 +21,7 @@ export function reconcile(wipFiber, elements) {
         parent: wipFiber,
         alternate: oldFiber,
         effectTag: UPDATE,
+        hooks: oldFiber.hooks || [],
       };
     }
 

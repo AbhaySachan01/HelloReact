@@ -18,11 +18,14 @@ function commitWork(fiber) {
   const domParent = domParentFiber?.dom;
 
   if (fiber.effectTag === PLACEMENT && fiber.dom != null) {
-    updateDom(fiber.dom, {}, fiber.props); // ✅ Apply props for new nodes
+    updateDom(fiber.dom, {}, fiber.props);
     domParent.appendChild(fiber.dom);
-  } else if (fiber.effectTag === UPDATE && fiber.dom != null) {
-    updateDom(fiber.dom, fiber.alternate.props, fiber.props);
-  } else if (fiber.effectTag === DELETION) {
+  } else if (fiber.effectTag === UPDATE) {
+    if (fiber.dom != null) {
+      updateDom(fiber.dom, fiber.alternate.props, fiber.props);
+    }
+  }
+  else if (fiber.effectTag === DELETION) {
     commitDeletion(fiber, domParent);
     return;
   }
