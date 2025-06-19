@@ -14,11 +14,7 @@ const element = (
 const element2 = (
   <>
     <div style={{ backgroundColor: "#f0f0f0", padding: "20px", borderRadius: "10px" }}>
-      <h2 style={{ margin: 0 }}>📢 Hello World</h2>
-      <h5 style={{ fontWeight: "normal", marginTop: "10px" }}>This is a custom fragment render.</h5>
-      <a href="hello" style={{ textDecoration: "none", color: "#ff6347" }}>
-        Click Me ❤️
-      </a>
+      <h2>📢 Hello World</h2>
     </div>
   </>
 );
