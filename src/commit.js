@@ -43,9 +43,29 @@ function commitDeletion(fiber, domParent) {
   }
 }
 
+
+function runEffects(fiber) {
+  if (!fiber) return;
+
+  if (fiber.hooks) {
+    for (let hook of fiber.hooks) {
+      if (hook.effect) {
+        if (hook.cleanup) hook.cleanup();
+        const cleanup = hook.effect();
+        hook.cleanup = typeof cleanup === "function" ? cleanup : null;
+      }
+    }
+  }
+
+
+  runEffects(fiber.child);
+  runEffects(fiber.sibling);
+}
+
 export function commitRoot(wipRoot) {
   getDeletions().forEach(commitWork);
   commitWork(wipRoot.child);
   setCurrentRoot(wipRoot);
   clearDeletions();
+  runEffects(wipRoot);
 }

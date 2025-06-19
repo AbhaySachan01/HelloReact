@@ -10,7 +10,7 @@ export function performUnitOfWork(fiber) {
     setHookIndex(0);
 
     fiber.hooks = [];
-    fiber.dom = null;
+    // fiber.dom = null;
 
     const children = [fiber.type(fiber.props)];
     reconcile(fiber, children);

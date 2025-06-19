@@ -10,9 +10,7 @@ import {
 export function useState(initial) {
   const wipFiber = getWipFiber();
   const hookIndex = getHookIndex();
-  const currentRoot = getCurrentRoot();
-
-
+  
   const oldHook = wipFiber.alternate?.hooks?.[hookIndex];
 
   const hook = {
