@@ -7,7 +7,7 @@ import {
 export function useEffect(effectFn, deps) {
   const wipFiber = getWipFiber();
   const hookIndex = getHookIndex();
-  console.log("useEffect hook ran");
+//   console.log("useEffect hook ran");
 
 
   const oldHook = wipFiber.alternate?.hooks?.[hookIndex];
