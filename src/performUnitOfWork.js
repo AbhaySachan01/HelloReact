@@ -28,7 +28,7 @@ export function performUnitOfWork(fiber) {
     }
 
     // Reconcile children
-    reconcile(fiber, fiber.props.children || []);
+    reconcile(fiber, fiber.props?.children || []);
   }
 
   // Return next unit of work (DFS)

@@ -7,6 +7,10 @@ let deletions = [];
 let hookIndex = 0;
 let nextUnitOfWork = null;
 
+
+// console.log("🧠 global.js loaded once");
+
+
 // 🌟 Effect Tags
 export const PLACEMENT = "PLACEMENT";
 export const UPDATE = "UPDATE";
@@ -32,4 +36,5 @@ export const setDeletions = (list) => { deletions = list; };
 
 // ✅ Deletion Helpers
 export const addDeletion = (fiber) => { deletions.push(fiber); };
-export const clearDeletions = () => { deletions = []; };
+export const clearDeletions = () => { deletions.length=0; };
+ 

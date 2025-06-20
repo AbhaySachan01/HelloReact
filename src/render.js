@@ -23,7 +23,9 @@ export function render(element, container) {
   };
 
   setWipRoot(root);
-  setCurrentRoot(root); 
+console.log("🧱 wipRoot after set:", getWipRoot()); // ⬅️ This should NOT be null
+
+  // setCurrentRoot(root); 
   setNextUnitOfWork(root);
   localDeletions = [];
 }
@@ -47,3 +49,5 @@ function workLoop(deadline) {
 }
 
 requestIdleCallback(workLoop);
+
+export {workLoop};

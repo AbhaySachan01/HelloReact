@@ -1,6 +1,6 @@
 import { PLACEMENT, UPDATE, DELETION } from "./global.js";
 import { addDeletion } from "./global.js";
-
+import { createDom } from "./dom.js";
 
 export function reconcile(wipFiber, elements) {
   let index = 0;
@@ -23,22 +23,29 @@ export function reconcile(wipFiber, elements) {
         effectTag: UPDATE,
         hooks: oldFiber.hooks || [],
       };
-    }
+    } else {
+      if (element) {
+        const isTextUpdate = oldFiber?.type === "text" && element.type === "text";
 
-    if (element && !sameType) {
-      newFiber = {
-        type: element.type,
-        props: element.props,
-        dom: null,
-        parent: wipFiber,
-        alternate: null,
-        effectTag: PLACEMENT,
-      };
-    }
+        newFiber = {
+          type: element.type,
+          props: element.props,
+          dom: isTextUpdate ? oldFiber.dom : null,
+          parent: wipFiber,
+          alternate: isTextUpdate ? oldFiber : null,
+          effectTag: isTextUpdate ? UPDATE : PLACEMENT,
+        };
 
-    if (oldFiber && !sameType) {
-      oldFiber.effectTag = DELETION;
-      addDeletion(oldFiber); 
+        // ✅ DOM create karo agar new fiber place ho raha hai aur dom abhi tak nahin hai
+        if (newFiber.effectTag === PLACEMENT && !newFiber.dom) {
+          newFiber.dom = createDom(newFiber);
+        }
+      }
+
+      if (oldFiber && !sameType) {
+        oldFiber.effectTag = DELETION;
+        addDeletion(oldFiber);
+      }
     }
 
     if (oldFiber) oldFiber = oldFiber.sibling;

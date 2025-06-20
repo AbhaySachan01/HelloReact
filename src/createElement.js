@@ -1,61 +1,32 @@
-export function createNewElement(type , props , ...children){
-    // console.log("Create New Element for ", type);
-    return {
-        type,
-        props:{
-            ...props,
-            children: children.map(child => typeof child=="object"
-                ? child 
-                : createNewTextElement(child)
-            ),
-        },
-    };
+export function createNewElement(type, props, ...children) {
+  const flatChildren = children.flat().map((child) => {
+    if (typeof child === "object") {
+      if (!child.type) {
+        return createNewTextElement(child.toString());
+      }
+      return child;
+    } else {
+      return createNewTextElement(child);
+    }
+  });
+
+  return {
+    type,
+    props: {
+      ...props,
+      children: flatChildren,
+    },
+  };
 }
 
-function createNewTextElement(text){
-    // console.log("Create New Text Element for ", text);
-    return {
-        type:"text",
-        props:{
-            nodeValue:text,
-            children:[],
-        },
-    };
+function createNewTextElement(text) {
+  return {
+    type: "text",
+    props: {
+      nodeValue: text,
+      children: [],
+    },
+  };
 }
+
 export const Fragment = "FRAGMENT";
-
-// 🧱 createNewTextElement(text)
-// This helper function wraps raw text like "Hello" into an object structure:
-
-// {
-//   type: "text",
-//   props: {
-//     nodeValue: "Hello",
-//     children: []
-//   }
-// }
-
-// createNewElement("div", { id: "main" }, "Hello", createNewElement("span", null, "World"))
-// {
-//   type: "div",
-//   props: {
-//     id: "main",
-//     children: [
-//       {
-//         type: "text",
-//         props: { nodeValue: "Hello", children: [] }
-//       },
-//       {
-//         type: "span",
-//         props: {
-//           children: [
-//             {
-//               type: "text",
-//               props: { nodeValue: "World", children: [] }
-//             }
-//           ]
-//         }
-//       }
-//     ]
-//   }
-// }

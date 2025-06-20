@@ -1,7 +1,7 @@
 import { Fragment } from "./createElement.js";
 
 
-export function updateDom(dom, prevProps, nextProps) {
+export function updateDom(dom, prevProps = {}, nextProps = {}) {
   if (dom.nodeType === Node.TEXT_NODE) {
     if (prevProps.nodeValue !== nextProps.nodeValue) {
       dom.nodeValue = nextProps.nodeValue;
@@ -39,7 +39,9 @@ Object.keys(nextProps)
     if (name === "style") {
       Object.assign(dom.style, nextProps.style);
     } else if (name === "value") {
-      dom.value = nextProps.value; // Set value as property
+      dom.value = nextProps.value;
+    } else if (name === "className") {
+      dom.setAttribute("class", nextProps[name]); // ✅ Fix here
     } else {
       dom.setAttribute(name, nextProps[name]);
     }
@@ -59,18 +61,22 @@ Object.keys(nextProps)
 
 export function createDom(fiber) {
   if (fiber.type === "text") {
-    return document.createTextNode(fiber.props.nodeValue);
+    fiber.dom = document.createTextNode(fiber.props.nodeValue); // ✅ Important!
+    return fiber.dom;
   }
 
   if (fiber.type === Fragment || typeof fiber.type === "function") {
     fiber.dom = null;
     return null;
   }
-  
+
   const dom = document.createElement(fiber.type);
   updateDom(dom, {}, fiber.props);
+
   if (fiber.props?.ref && typeof fiber.props.ref === "object") {
     fiber.props.ref.current = dom;
   }
+
+  fiber.dom = dom; // ✅ Assign here too
   return dom;
 }

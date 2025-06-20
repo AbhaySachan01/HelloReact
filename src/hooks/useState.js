@@ -1,16 +1,17 @@
 import {
+  getWipRoot,
   getWipFiber,
   getHookIndex,
   setHookIndex,
   getCurrentRoot,
   setWipRoot,
   setNextUnitOfWork,
+  clearDeletions
 } from "../global.js";
 
 export function useState(initial) {
   const wipFiber = getWipFiber();
   const hookIndex = getHookIndex();
-  
   const oldHook = wipFiber.alternate?.hooks?.[hookIndex];
 
   const hook = {
@@ -24,23 +25,19 @@ export function useState(initial) {
     }
   }
 
+  // ✅ Important: clear oldHook's queue so updates are not re-applied next render
   if (oldHook) oldHook.queue = [];
 
-
   wipFiber.hooks.push(hook);
-
-  const currentHookIndex = hookIndex;
   setHookIndex(hookIndex + 1);
 
   const setState = (action) => {
-    const currentRoot = getCurrentRoot();
-    const currentRootAlt = currentRoot?.alternate;
+    hook.queue.push(action);
 
-    const altHook = currentRootAlt?.hooks?.[currentHookIndex];
-    if (altHook) {
-      altHook.queue.push(action);
-    } else {
-      hook.queue.push(action);
+    const currentRoot = getCurrentRoot();
+    if (!currentRoot) {
+      console.warn("❌ currentRoot is null, cannot re-render");
+      return;
     }
 
     const newRoot = {
@@ -51,6 +48,7 @@ export function useState(initial) {
 
     setWipRoot(newRoot);
     setNextUnitOfWork(newRoot);
+    clearDeletions();
   };
 
   return [hook.state, setState];
