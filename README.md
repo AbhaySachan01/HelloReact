@@ -9,7 +9,7 @@ Each file has its own in-depth documentation with examples, logic breakdowns, an
 |--------------------------|----------------------------------------|
 | 🧩 `createElement.js`     | [createElement.md](./src/readme/createElement.md) |
 | 🔁 `render.js`            | [render.md](./src/readme/render.md)               |
-| ⚙️ `performUnitOfWork.js` | [performUnitOfWork.md](./src/readme/performUnitOfWork.md) |
+| ⚙️ `performUnitOfWork.js` | [performUnitOfWork.md](./src/readme/performUnitofWork.md) |
 | ⚖️ `reconcile.js`         | [reconcile.md](./src/readme/reconcile.md)         |
 | ✅ `commit.js`            | [commit.md](./src/readme/commit.md)               |
 | 🏗 `dom.js`               | [dom.md](./src/readme/dom.md)                     |
