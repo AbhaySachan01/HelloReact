@@ -32,10 +32,10 @@ fiber.child, fiber.sibling, or fiber.parent.sibling
 Returns null if the traversal is complete
 
 ## 📚 <span style="color:#00bfff">Fiber Traversal</span>
-<img src="../../assets/fiber_traversal.svg" alt="fiber traversal" width="300"/>
+<img src="../../assets/fiber_traversal.svg" alt="fiber traversal" width="450"/>
 
 ## 📚 <span style="color:#00bfff">Component_Flow</span>
-<img src="../../assets/component_Flow.svg" alt="component flow" width="300"/>
+<img src="../../assets/component_Flow.svg" alt="component flow" width="600"/>
 
 ---
 ## 🧠 <span style="color:#32cd32">Logic Breakdown</span>

@@ -50,7 +50,7 @@ Nothing (applies changes directly to the DOM node)
 ---
 ## 🧠 <span style="color:#32cd32">Update Logic Overview</span>
 
-<img src="../../assets/updatedom.svg" alt="update dom Process" width="300"/>
+<img src="../../assets/updatedom.svg" alt="update dom Process" width="600"/>
 
 🔁 What It Handles
 ✅ Text Nodes

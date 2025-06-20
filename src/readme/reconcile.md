@@ -44,7 +44,7 @@ Modifies wipFiber.child and builds a new tree of fibers with effectTags attached
 
 ---
 ## 🔄 <span style="color:#1e90ff">Reconciliation Flow</span>
-<img src="../../assets/reconcile.svg" alt="Reconcile Process" width="300"/>
+<img src="../../assets/reconcile.svg" alt="Reconcile Process" width="800"/>
 
 ## ⚙️ <span style="color:#cc00cc">Internal Mechanics</span>
 ✅ Matching (Same Type)
