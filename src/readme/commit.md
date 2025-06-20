@@ -65,7 +65,7 @@ Stores returned cleanup functions
 ---
 ## 🧠 <span style="color:#32cd32">How It Works</span>
 #### Commitwork
-<img src="../../assets/commitwork.svg" alt="commit work Process" width="300"/>
+<img src="../../assets/commitwork.svg" alt="commit work Process"/>
 
 #### Commitroot
 <img src="../../assets/commitroot.svg" alt="commit root Process" width="300"/>
