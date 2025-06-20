@@ -26,9 +26,12 @@ Initializes the rendering process by creating a root fiber and starting the work
 ---
 ## 📝 Parameters
 
-🧩 Parameter	🔤 Type	📄 Description
-element	Object	Virtual DOM element to render
-container	HTMLElement	DOM container to attach the root fiber
+
+| 🧩Parameter | 🔤 Type              | 📄 Description                                  |
+|-------------|-----------------------|-------------------------------------------------|
+| `element`   | Object                | Virtual DOM element to render                   |
+| `container` | HTMLElement           | DOM container to attach the root fiber          |
+
 
 ---
 ## 🔙 Returns
