@@ -27,11 +27,6 @@ export function performUnitOfWork(fiber) {
       parentFiber = parentFiber.parent;
     }
 
-    // Attach DOM to parent
-    // if (fiber.dom && parentFiber?.dom) {
-    //   parentFiber.dom.appendChild(fiber.dom);
-    // }
-
     // Reconcile children
     reconcile(fiber, fiber.props.children || []);
   }
